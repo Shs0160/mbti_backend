@@ -24,7 +24,7 @@ public class QuestionService {
 
     public void saveAnswer(QuestionDTO questionDTO){
         User user = userRepository.findById(questionDTO.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("해당 ID의 사용자를 찾을 수 없습니다."));
 
        Question question = new Question();
        question.setUser(user);
