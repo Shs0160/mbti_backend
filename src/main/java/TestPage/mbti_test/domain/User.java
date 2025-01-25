@@ -15,22 +15,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long UserId;
 
-    private String Name;
+    private String name;
 
-    public Long getUserId() {
-        return UserId;
-    }
+    private String result;
 
-    public void setUserId(Long userId) {
-        UserId = userId;
-    }
-
-    public String getName() {
-        return Name;
-    }
-
-    public void setName(String name) {
-        Name = name;
-    }
 
 }

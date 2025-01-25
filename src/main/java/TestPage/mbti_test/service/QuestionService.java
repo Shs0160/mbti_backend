@@ -1,6 +1,5 @@
 package TestPage.mbti_test.service;
 
-import TestPage.mbti_test.controller.QuestionController;
 import TestPage.mbti_test.dto.QuestionDTO;
 import TestPage.mbti_test.repository.QuestionRepository;
 import TestPage.mbti_test.repository.UserRepository;
@@ -8,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import TestPage.mbti_test.domain.User;
 import TestPage.mbti_test.domain.Question;
+
+import java.util.List;
 
 
 @Service
@@ -22,27 +23,44 @@ public class QuestionService {
         this.userRepository = userRepository;
     }
 
-    public void saveAnswer(QuestionDTO questionDTO){
-        User user = userRepository.findById(questionDTO.getUserId())
-                .orElseThrow(() -> new RuntimeException("해당 ID의 사용자를 찾을 수 없습니다."));
+    @Transactional
+    public String saveAndCalculateResult(QuestionDTO questionDTO) {
 
-       Question question = new Question();
-       question.setUser(user);
-       question.setNum1(questionDTO.getNum1());
-       question.setNum2(questionDTO.getNum2());
-       question.setNum3(questionDTO.getNum3());
-       question.setNum4(questionDTO.getNum4());
-       question.setNum5(questionDTO.getNum5());
-       question.setNum6(questionDTO.getNum6());
-       question.setNum7(questionDTO.getNum7());
-       question.setNum8(questionDTO.getNum8());
-       question.setNum9(questionDTO.getNum9());
-       question.setNum10(questionDTO.getNum10());
-       question.setNum11(questionDTO.getNum11());
-       question.setNum12(questionDTO.getNum12());
+        User user = userRepository.findByName(questionDTO.getUserName())
+                .orElseGet(() -> {
+                    User newUser = new User();
+                    newUser.setName(questionDTO.getUserName());
+                    return userRepository.save(newUser);
+                });
 
-       questionRepository.save(question);
+        Question question = new Question();
+        question.setUser(user);
+        question.setAnswers(questionDTO.getAnswers());
+        questionRepository.save(question);
 
+        String result = calculateMBTI(question.getAnswers());
+        user.setResult(result);
+        userRepository.save(user);
+
+        return result;
+    }
+
+    private String calculateMBTI(List<String> answers) {
+        StringBuilder result = new StringBuilder();
+
+        //여기서 MBTI 계산해서 저장함!!
+        result.append(countAnswers(answers.subList(0, 3), "E", "I") ? "E" : "I");
+        result.append(countAnswers(answers.subList(3, 6), "N", "S") ? "N" : "S");
+        result.append(countAnswers(answers.subList(6, 9), "T", "F") ? "T" : "F");
+        result.append(countAnswers(answers.subList(9, 12), "P", "J") ? "P" : "J");
+
+        return result.toString();
+    }
+
+    private boolean countAnswers(List<String> answers, String option1, String option2) {
+        long countOption1 = answers.stream().filter(answer -> answer.equals(option1)).count();
+        long countOption2 = answers.stream().filter(answer -> answer.equals(option2)).count();
+        return countOption1 >= countOption2;
     }
 
 
