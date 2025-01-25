@@ -12,8 +12,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     #url: jdbc:postgresql://localhost:5432/mbti_test?characterEncoding=UTF-8&serverTimezone=UTC
     #username: songheesu
-
-    url: jdbc:postgresql://svc:sel4:cloudtype:app:30605/mbti_test
+    url: jdbc:postgresql://svc.sel4.cloudtype.app:30605/mbti_test
     username: root
     password: 10040160
   thymeleaf:
