@@ -38,7 +38,8 @@ public class SwaggerConfig {
                         .description("썽봉의 가능한 MBTI Test api명세서")
                         .contact(new Contact()
                                 .name("songheesu")
-                                .url("http://localhost:8080")
+                                //.url("http://localhost:8080")
+                                .url("https://port-0-mbti-test-m6bulo9304959452.sel4.cloudtype.app")
                                 .email("bsthss0160@gmail.com"))
                         .license(new License().name("Apache 2.0").url("http://springdoc.org")));
     }
