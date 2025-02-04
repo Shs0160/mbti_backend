@@ -10,11 +10,9 @@ server:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    #url: jdbc:postgresql://localhost:5432/mbti_test?characterEncoding=UTF-8&serverTimezone=UTC
-    #username: songheesu
-    url: jdbc:postgresql://svc.sel4.cloudtype.app:30605/mbti_test
-    username: root
-    password: 10040160
+    url: jdbc:postgresql://ccpa7stkruda3o.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com/d417m90et5hua3
+    username: u3t363n286dfau
+    password: pf42f4eb27acccf8a1b23cf13e6eeb3136cad8f7df6349d385acda3f93a835f67
   thymeleaf:
       cache: false
 
